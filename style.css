@@ -16,8 +16,8 @@ body {
   padding: 0;
 }
 
-.container > h1,
-.container > .add-items {
+h1,
+.add-items {
   min-height: 20vh;
   display: flex;
   justify-content: center;
@@ -25,12 +25,12 @@ body {
   text-align: center;
 }
 
-.container > h1 {
+h1 {
   font-size: 3rem;
 }
 
-.container > .add-items > input,
-.container > .add-items > button {
+input,
+button {
   padding: 10px;
   font-size: 20px;
   border: none;
@@ -38,24 +38,24 @@ body {
   outline: none;
 }
 
-.container > .add-items > button {
+button {
   color: rgb(201, 200, 200);
   cursor: pointer;
   transition: all 0.3s ease-in;
 }
 
-.container > .add-items > .todo-btn:hover {
+.todo-btn:hover {
   color: rgb(255, 0, 0);
   background: rgb(201, 200, 200);
 }
 
-.container > .todo-list {
+.todo-list {
   margin-left: 40%;
   transform: translateX(-34%);
   color: black;
 }
 
-.container > .todo-list li {
+.todo-list li {
   background: whitesmoke;
   font-size: 20px;
   margin: 5px;
@@ -70,16 +70,16 @@ body {
   transition: all 0.5s ease;
 }
 
-.container > .todo-list input {
+.todo-list input {
   display: none;
 }
 
-.container > .todo-list i {
+.todo-list i {
   cursor: pointer;
 }
 
-.container > .todo-list .fa-check,
-.container > .todo-list .fa-trash-alt {
+.todo-list .fa-check,
+.todo-list .fa-trash-alt {
   background: whitesmoke;
   color: rgb(201, 200, 200);
   font-size: 20px;
@@ -90,28 +90,28 @@ body {
   transition: all 0.3s;
 }
 
-.container > .todo-list .fa-trash-alt {
+.todo-list .fa-trash-alt {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
 
-.container > .todo-list .fa-check:hover {
+.todo-list .fa-check:hover {
   color: whitesmoke;
   background: rgb(7, 175, 7);
   opacity: 1;
 }
 
-.container > .todo-list .fa-trash-alt:hover {
+.todo-list .fa-trash-alt:hover {
   color: whitesmoke;
   background: rgb(228, 1, 1);
   opacity: 1;
 }
 
-.container > .todo-list > li:last-child {
+.todo-list > li:last-child {
   margin-bottom: 40px;
 }
 
-.container > #completed {
+#completed {
   text-decoration: line-through;
   opacity: 0.7;
 }
