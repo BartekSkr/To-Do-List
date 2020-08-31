@@ -15,6 +15,13 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const addBtn = document.querySelector(".todo-btn");
 const itemInput = document.querySelector(".todo-input");
+const listContainer = document.querySelector(".container");
+const signContainer = document.querySelector(".sign-in-container");
+const emailInput = document.querySelector("#email-input");
+const passwordInput = document.querySelector("#password-input");
+const logInBtn = document.getElementById("log-in-btn");
+const signUpBtn = document.getElementById("sign-up-btn");
+const logOutBtn = document.getElementById("log-out-btn");
 
 let toDoTasksUpdates = {};
 let completeTasksUpdates = {};
@@ -51,10 +58,6 @@ function addItems(e) {
 
 //  CREATE ITEMS ON THE LIST
 function createItems(inputItem, toDoTasks_key, completeTasks_key, list) {
-  // const list = completed
-  //   ? document.getElementById("todo")
-  //   : document.getElementById("completed");
-
   const item = document.createElement("li");
   item.innerText = inputItem;
 
@@ -130,6 +133,7 @@ function createItems(inputItem, toDoTasks_key, completeTasks_key, list) {
 
 //  SHOWING DATA FROM FIREBASE
 function showData() {
+  //  toDoTasks
   db.ref("toDoTasks").once("value", (toDoSnap) => {
     toDoSnap.forEach((toDoChildSnap) => {
       const toDoTasks = [];
@@ -151,6 +155,7 @@ function showData() {
     });
   });
 
+  //  completeTasks
   db.ref("completeTasks").once("value", (completeSnap) => {
     completeSnap.forEach((completeChildSnap) => {
       const completeTasks = [];
@@ -178,8 +183,46 @@ function showData() {
   });
 }
 
-//  DISPLAY DATA FROM FIREBASE
-showData();
-
 //  EVENTLISTENERS
 addBtn.addEventListener("click", addItems);
+
+//  LOG IN
+logInBtn.addEventListener("click", (e) => {
+  const email = emailInput.value;
+  const pass = passwordInput.value;
+  const auth = firebase.auth();
+
+  const promise = auth.signInWithEmailAndPassword(email, pass);
+  promise.catch((e) => console.log(e.message));
+});
+
+//  SIGN UP
+signUpBtn.addEventListener("click", () => {
+  const email = emailInput.value;
+  const pass = passwordInput.value;
+  const auth = firebase.auth();
+
+  const promise = auth.createUserWithEmailAndPassword(email, pass);
+  promise.catch((e) => console.log(e.message));
+});
+
+//  LOG OUT
+logOutBtn.addEventListener("click", () => {
+  firebase.auth().signOut();
+});
+
+firebase.auth().onAuthStateChanged((firebaseUser) => {
+  if (firebaseUser) {
+    console.log(firebaseUser);
+    console.log(firebaseUser.uid);
+    listContainer.classList.remove("hidden");
+    signContainer.classList.add("sign-in-form-hidden");
+  } else {
+    console.log("not logged in");
+    listContainer.classList.add("hidden");
+    signContainer.classList.remove("sign-in-form-hidden");
+  }
+});
+
+//  DISPLAY DATA FROM FIREBASE
+showData();

@@ -12,11 +12,21 @@
     <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-database.js"></script>
 
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-auth.js"></script>
+
     <title>To Do List</title>
 </head>
 
 <body>
-    <div class="container">
+    <div class="sign-in-container">
+        <input id="email-input" type="email" placeholder="Email">
+        <input id="password-input" type="password" placeholder="Password">
+        <button id="log-in-btn">Log In</button>
+        <button id="sign-up-btn">Sign Up</button>
+    </div>
+
+    <div class="container hidden">
         <h1>To Do List</h1>
         <form class="add-items">
             <input type="text" class="todo-input" placeholder="add item" required /></input>
@@ -26,7 +36,10 @@
         </form>
         <ul class="todo-list" id="todo"></ul>
         <ul class="todo-list" id="completed"></ul>
+
+        <button id="log-out-btn">Log Out</button>
     </div>
+
     <script src="app.js"></script>
 </body>
 
