@@ -139,16 +139,16 @@ function showData() {
 
       toDoTasks.push(Object.values(toDoChildData));
 
-      for (i = 0; i < toDoTasks.length; i++) {
-        let toDoTasks_key = toDoTasks[i][0];
-        let toDoTasks_task = toDoTasks[i][1];
+      toDoTasks.forEach((el) => {
+        let toDoTasks_key = el[0];
+        let toDoTasks_task = el[1];
 
         list = completed
           ? document.getElementById("todo")
           : document.getElementById("completed");
 
         createItems(toDoTasks_task, toDoTasks_key, toDoTasks_key, list);
-      }
+      });
     });
   });
 
@@ -160,9 +160,9 @@ function showData() {
 
       completeTasks.push(Object.values(completeChildData));
 
-      for (j = 0; j < completeTasks.length; j++) {
-        let completeTasks_key = completeTasks[j][0];
-        let completeTasks_task = completeTasks[j][1];
+      completeTasks.forEach((el) => {
+        let completeTasks_key = el[0];
+        let completeTasks_task = el[1];
 
         list = completed
           ? document.getElementById("completed")
@@ -174,7 +174,7 @@ function showData() {
           completeTasks_key,
           list
         );
-      }
+      });
     });
   });
 }
@@ -233,18 +233,22 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
 //  TOAST NOTIFICATION
 const Toast = {
   init() {
+    this.hideTimeout = null;
+
     this.toast = document.createElement("div");
     this.toast.className = "toast";
     document.body.appendChild(this.toast);
   },
 
   show(message, status) {
+    clearTimeout(this.hideTimeout);
+
     this.toast.textContent = message;
     this.toast.className = "toast toast--visible";
 
     if (status) this.toast.classList.add(`toast--${status}`);
 
-    setTimeout(() => {
+    this.hideTimeout = setTimeout(() => {
       this.toast.classList.remove("toast--visible");
     }, 3000);
   },
