@@ -83,10 +83,8 @@ function createItems(inputItem, toDoTasks_key, completeTasks_key, list) {
 
     if (id === "todo") {
       db.ref("toDoTasks/" + toDoTasks_key).remove();
-      console.log(toDoTasks_key, "deleted");
     } else {
       db.ref("completeTasks/" + completeTasks_key).remove();
-      console.log(completeTasks_key, "deleted");
     }
 
     parent.removeChild(item);
@@ -142,7 +140,6 @@ function showData() {
       toDoTasks.push(Object.values(toDoChildData));
 
       for (i = 0; i < toDoTasks.length; i++) {
-        console.log("toDoTasks: ", toDoTasks[i]);
         let toDoTasks_key = toDoTasks[i][0];
         let toDoTasks_task = toDoTasks[i][1];
 
@@ -164,7 +161,6 @@ function showData() {
       completeTasks.push(Object.values(completeChildData));
 
       for (j = 0; j < completeTasks.length; j++) {
-        console.log("completeTasks: ", completeTasks[j]);
         let completeTasks_key = completeTasks[j][0];
         let completeTasks_task = completeTasks[j][1];
 
@@ -187,13 +183,15 @@ function showData() {
 addBtn.addEventListener("click", addItems);
 
 //  LOG IN
-logInBtn.addEventListener("click", (e) => {
+logInBtn.addEventListener("click", () => {
   const email = emailInput.value;
   const pass = passwordInput.value;
   const auth = firebase.auth();
 
   const promise = auth.signInWithEmailAndPassword(email, pass);
-  promise.catch((e) => console.log(e.message));
+  promise.catch((e) => {
+    Toast.show(`${e.message}`, `error`);
+  });
 });
 
 //  SIGN UP
@@ -203,20 +201,28 @@ signUpBtn.addEventListener("click", () => {
   const auth = firebase.auth();
 
   const promise = auth.createUserWithEmailAndPassword(email, pass);
-  promise.catch((e) => console.log(e.message));
+  promise.catch((e) => {
+    Toast.show(`${e.message}`, `error`);
+  });
 });
 
 //  LOG OUT
 logOutBtn.addEventListener("click", () => {
   firebase.auth().signOut();
+  Toast.show(`Logged out`, `success`);
+
+  window.location.reload();
 });
 
 firebase.auth().onAuthStateChanged((firebaseUser) => {
   if (firebaseUser) {
-    console.log(firebaseUser);
-    console.log(firebaseUser.uid);
     listContainer.classList.remove("hidden");
     signContainer.classList.add("sign-in-form-hidden");
+
+    Toast.show(`Welcome ${firebaseUser.email}`, "success");
+
+    //  DISPLAY DATA FROM FIREBASE
+    showData();
   } else {
     console.log("not logged in");
     listContainer.classList.add("hidden");
@@ -224,5 +230,24 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
   }
 });
 
-//  DISPLAY DATA FROM FIREBASE
-showData();
+//  TOAST NOTIFICATION
+const Toast = {
+  init() {
+    this.toast = document.createElement("div");
+    this.toast.className = "toast";
+    document.body.appendChild(this.toast);
+  },
+
+  show(message, status) {
+    this.toast.textContent = message;
+    this.toast.className = "toast toast--visible";
+
+    if (status) this.toast.classList.add(`toast--${status}`);
+
+    setTimeout(() => {
+      this.toast.classList.remove("toast--visible");
+    }, 3000);
+  },
+};
+
+document.addEventListener("DOMContentLoaded", () => Toast.init());

@@ -161,3 +161,31 @@ button {
   border-bottom: 1px solid black;
   display: flex;
 }
+
+/* TOAST NOTIFICATION */
+.toast {
+  position: fixed;
+  top: 0;
+  left: 20px;
+  max-width: 400px;
+  padding: 5px;
+  background: grey;
+  border-radius: 6px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s, top 0.2s, visibility 0.2s;
+}
+
+.toast--visible {
+  top: 10px;
+  opacity: 1;
+  visibility: visible;
+}
+
+.toast--success {
+  background: green;
+}
+
+.toast--error {
+  background: red;
+}
