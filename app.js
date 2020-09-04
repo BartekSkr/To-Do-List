@@ -26,6 +26,7 @@ const logOutBtn = document.getElementById("log-out-btn");
 let toDoTasksUpdates = {};
 let completeTasksUpdates = {};
 let list;
+let user;
 
 //  ADD ITEMS TO FIREBASE
 function addItems(e) {
@@ -40,6 +41,7 @@ function addItems(e) {
     let toDoTasks = {
       task: itemToAdd,
       key: toDoTasks_key,
+      user: user,
     };
 
     //  ADD ITEMS TO FIREBASE
@@ -99,11 +101,13 @@ function createItems(inputItem, toDoTasks_key, completeTasks_key, list) {
     let toDoTasks = {
       task: inputItem,
       key: toDoTasks_key,
+      user: user,
     };
 
     let completeTasks = {
       task: inputItem,
       key: completeTasks_key,
+      user: user,
     };
 
     if (id === "todo") {
@@ -142,12 +146,15 @@ function showData() {
       toDoTasks.forEach((el) => {
         let toDoTasks_key = el[0];
         let toDoTasks_task = el[1];
+        let toDoTasks_user = el[2];
 
         list = completed
           ? document.getElementById("todo")
           : document.getElementById("completed");
 
-        createItems(toDoTasks_task, toDoTasks_key, toDoTasks_key, list);
+        if (user === toDoTasks_user) {
+          createItems(toDoTasks_task, toDoTasks_key, toDoTasks_key, list);
+        }
       });
     });
   });
@@ -163,17 +170,19 @@ function showData() {
       completeTasks.forEach((el) => {
         let completeTasks_key = el[0];
         let completeTasks_task = el[1];
+        let completeTasks_user = el[2];
 
         list = completed
           ? document.getElementById("completed")
           : document.getElementById("todo");
-
-        createItems(
-          completeTasks_task,
-          completeTasks_key,
-          completeTasks_key,
-          list
-        );
+        if (user === completeTasks_user) {
+          createItems(
+            completeTasks_task,
+            completeTasks_key,
+            completeTasks_key,
+            list
+          );
+        }
       });
     });
   });
@@ -181,6 +190,30 @@ function showData() {
 
 //  EVENTLISTENERS
 addBtn.addEventListener("click", addItems);
+
+//  TOAST NOTIFICATION
+const Toast = {
+  init() {
+    this.hideTimeout = null;
+
+    this.toast = document.createElement("div");
+    this.toast.className = "toast";
+    document.body.appendChild(this.toast);
+  },
+
+  show(message, status) {
+    clearTimeout(this.hideTimeout);
+
+    this.toast.textContent = message;
+    this.toast.className = "toast toast--visible";
+
+    if (status) this.toast.classList.add(`toast--${status}`);
+
+    this.hideTimeout = setTimeout(() => {
+      this.toast.classList.remove("toast--visible");
+    }, 3000);
+  },
+};
 
 //  LOG IN
 logInBtn.addEventListener("click", () => {
@@ -221,6 +254,8 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
 
     Toast.show(`Welcome ${firebaseUser.email}`, "success");
 
+    user = firebaseUser.email;
+
     //  DISPLAY DATA FROM FIREBASE
     showData();
   } else {
@@ -229,29 +264,5 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
     signContainer.classList.remove("sign-in-form-hidden");
   }
 });
-
-//  TOAST NOTIFICATION
-const Toast = {
-  init() {
-    this.hideTimeout = null;
-
-    this.toast = document.createElement("div");
-    this.toast.className = "toast";
-    document.body.appendChild(this.toast);
-  },
-
-  show(message, status) {
-    clearTimeout(this.hideTimeout);
-
-    this.toast.textContent = message;
-    this.toast.className = "toast toast--visible";
-
-    if (status) this.toast.classList.add(`toast--${status}`);
-
-    this.hideTimeout = setTimeout(() => {
-      this.toast.classList.remove("toast--visible");
-    }, 3000);
-  },
-};
 
 document.addEventListener("DOMContentLoaded", () => Toast.init());
