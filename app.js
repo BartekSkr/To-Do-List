@@ -188,9 +188,6 @@ function showData() {
   });
 }
 
-//  EVENTLISTENERS
-addBtn.addEventListener("click", addItems);
-
 //  TOAST NOTIFICATION
 const Toast = {
   init() {
@@ -215,8 +212,8 @@ const Toast = {
   },
 };
 
-//  LOG IN
-logInBtn.addEventListener("click", () => {
+//  LOG IN FUNCTION
+function logIn() {
   const email = emailInput.value;
   const pass = passwordInput.value;
   const auth = firebase.auth();
@@ -225,10 +222,10 @@ logInBtn.addEventListener("click", () => {
   promise.catch((e) => {
     Toast.show(`${e.message}`, `error`);
   });
-});
+}
 
-//  SIGN UP
-signUpBtn.addEventListener("click", () => {
+//  SIGN UP FUNCTION
+function signUp() {
   const email = emailInput.value;
   const pass = passwordInput.value;
   const auth = firebase.auth();
@@ -237,15 +234,15 @@ signUpBtn.addEventListener("click", () => {
   promise.catch((e) => {
     Toast.show(`${e.message}`, `error`);
   });
-});
+}
 
-//  LOG OUT
-logOutBtn.addEventListener("click", () => {
+//  LOG OUT FUNCTION
+function logOut() {
   firebase.auth().signOut();
   Toast.show(`Logged out`, `success`);
 
   window.location.reload();
-});
+}
 
 firebase.auth().onAuthStateChanged((firebaseUser) => {
   if (firebaseUser) {
@@ -265,4 +262,11 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
   }
 });
 
+//  EVENTLISTENERS
+addBtn.addEventListener("click", addItems);
+logInBtn.addEventListener("click", logIn);
+signUpBtn.addEventListener("click", signUp);
+logOutBtn.addEventListener("click", logOut);
+
+//  TOAST INIT
 document.addEventListener("DOMContentLoaded", () => Toast.init());
