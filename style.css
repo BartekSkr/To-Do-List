@@ -47,7 +47,8 @@ button {
 .todo-btn:hover,
 #log-in-btn:hover,
 #sign-up-btn:hover,
-#log-out-btn:hover {
+#log-out-btn:hover,
+#return-btn:hover {
   color: rgb(255, 0, 0);
   background: rgb(201, 200, 200);
 }
@@ -130,7 +131,7 @@ button {
 }
 
 /* HIDING LIST BEFORE LOG IN */
-.hidden {
+.blur {
   filter: blur(0.9rem);
   pointer-events: none;
   z-index: -5;
@@ -160,6 +161,31 @@ button {
   width: 100%;
   border-bottom: 1px solid black;
   display: flex;
+}
+
+/* VERIFY INFO FORM */
+.verify-info-container {
+  background-color: whitesmoke;
+  color: rgb(201, 200, 200);
+  z-index: 10;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 30px 25px;
+  height: 200px;
+  width: 400px;
+  border-radius: 10px;
+}
+
+/* SHOWING INFO ABOUT VERIFICATION EMAIL */
+.hidden {
+  display: none;
+}
+
+/* RETURN BTN */
+#return-btn {
+  margin-top: 40px;
 }
 
 /* TOAST NOTIFICATION */

@@ -17,11 +17,15 @@ const addBtn = document.querySelector(".todo-btn");
 const itemInput = document.querySelector(".todo-input");
 const listContainer = document.querySelector(".container");
 const signContainer = document.querySelector(".sign-in-container");
+const verifyContainer = document.querySelector(".verify-info-container");
 const emailInput = document.querySelector("#email-input");
 const passwordInput = document.querySelector("#password-input");
 const logInBtn = document.getElementById("log-in-btn");
 const signUpBtn = document.getElementById("sign-up-btn");
 const logOutBtn = document.getElementById("log-out-btn");
+const returnBtn = document.getElementById("return-btn");
+
+const auth = firebase.auth();
 
 let toDoTasksUpdates = {};
 let completeTasksUpdates = {};
@@ -216,10 +220,8 @@ const Toast = {
 function logIn() {
   const email = emailInput.value;
   const pass = passwordInput.value;
-  const auth = firebase.auth();
 
-  const promise = auth.signInWithEmailAndPassword(email, pass);
-  promise.catch((e) => {
+  auth.signInWithEmailAndPassword(email, pass).catch((e) => {
     Toast.show(`${e.message}`, `error`);
   });
 }
@@ -228,12 +230,21 @@ function logIn() {
 function signUp() {
   const email = emailInput.value;
   const pass = passwordInput.value;
-  const auth = firebase.auth();
 
-  const promise = auth.createUserWithEmailAndPassword(email, pass);
-  promise.catch((e) => {
-    Toast.show(`${e.message}`, `error`);
-  });
+  auth
+    .createUserWithEmailAndPassword(email, pass)
+    .then(() => {
+      sendVerificationEmail();
+      signContainer.classList.add("hidden");
+      verifyContainer.classList.remove("hidden");
+    })
+    .catch((e) => {
+      Toast.show(`${e.message}`, `error`);
+    });
+
+  // auth.createUserWithEmailAndPassword(email, pass).catch((e) => {
+  //   Toast.show(`${e.message}`, `error`);
+  // });
 }
 
 //  LOG OUT FUNCTION
@@ -244,21 +255,30 @@ function logOut() {
   window.location.reload();
 }
 
+//  SEND VERIFICATION MAIL FUNCTION
+function sendVerificationEmail() {
+  auth.currentUser.sendEmailVerification().then(() => {});
+}
+
 firebase.auth().onAuthStateChanged((firebaseUser) => {
   if (firebaseUser) {
-    listContainer.classList.remove("hidden");
-    signContainer.classList.add("sign-in-form-hidden");
+    if (firebaseUser.emailVerified === true) {
+      listContainer.classList.remove("blur");
+      signContainer.classList.add("sign-in-form-hidden");
 
-    Toast.show(`Welcome ${firebaseUser.email}`, "success");
+      Toast.show(`Welcome ${firebaseUser.email}`, "success");
 
-    user = firebaseUser.email;
+      user = firebaseUser.email;
 
-    //  DISPLAY DATA FROM FIREBASE
-    showData();
-  } else {
-    console.log("not logged in");
-    listContainer.classList.add("hidden");
-    signContainer.classList.remove("sign-in-form-hidden");
+      // console.log(firebaseUser);
+
+      //  DISPLAY DATA FROM FIREBASE
+      showData();
+    } else {
+      console.log("not logged in");
+      listContainer.classList.add("blur");
+      signContainer.classList.remove("sign-in-form-hidden");
+    }
   }
 });
 
@@ -267,6 +287,9 @@ addBtn.addEventListener("click", addItems);
 logInBtn.addEventListener("click", logIn);
 signUpBtn.addEventListener("click", signUp);
 logOutBtn.addEventListener("click", logOut);
+returnBtn.addEventListener("click", () => {
+  window.location.reload();
+});
 
 //  TOAST INIT
 document.addEventListener("DOMContentLoaded", () => Toast.init());
