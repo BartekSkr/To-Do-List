@@ -37,19 +37,19 @@ function addItems(e) {
   e.preventDefault();
   const itemToAdd = itemInput.value;
 
-  const toDoTasks_key = db.ref().child("toDoTasks").push().key;
-  const completeTasks_key = db.ref().child("completeTasks").push().key;
+  const toDoTasksKey = db.ref().child("toDoTasks").push().key;
+  const completeTasksKey = db.ref().child("completeTasks").push().key;
 
   //  ADD ITEMS TO FIREBASE NAD LIST
   if (itemToAdd) {
     let toDoTasks = {
       task: itemToAdd,
-      key: toDoTasks_key,
+      key: toDoTasksKey,
       user: user,
     };
 
     //  ADD ITEMS TO FIREBASE
-    toDoTasksUpdates["toDoTasks/" + toDoTasks_key] = toDoTasks;
+    toDoTasksUpdates["toDoTasks/" + toDoTasksKey] = toDoTasks;
     db.ref().update(toDoTasksUpdates);
 
     document.querySelector(".todo-input").value = "";
@@ -58,12 +58,12 @@ function addItems(e) {
       ? document.getElementById("todo")
       : document.getElementById("completed");
 
-    createItems(itemToAdd, toDoTasks_key, completeTasks_key, list);
+    createItems(itemToAdd, toDoTasksKey, completeTasksKey, list);
   }
 }
 
 //  CREATE ITEMS ON THE LIST
-function createItems(inputItem, toDoTasks_key, completeTasks_key, list) {
+function createItems(inputItem, toDoTasksKey, completeTasksKey, list) {
   const item = document.createElement("li");
   item.innerText = inputItem;
 
@@ -88,9 +88,9 @@ function createItems(inputItem, toDoTasks_key, completeTasks_key, list) {
     const id = parent.id;
 
     if (id === "todo") {
-      db.ref("toDoTasks/" + toDoTasks_key).remove();
+      db.ref("toDoTasks/" + toDoTasksKey).remove();
     } else {
-      db.ref("completeTasks/" + completeTasks_key).remove();
+      db.ref("completeTasks/" + completeTasksKey).remove();
     }
 
     parent.removeChild(item);
@@ -104,25 +104,23 @@ function createItems(inputItem, toDoTasks_key, completeTasks_key, list) {
 
     let toDoTasks = {
       task: inputItem,
-      key: toDoTasks_key,
+      key: toDoTasksKey,
       user: user,
     };
 
     let completeTasks = {
       task: inputItem,
-      key: completeTasks_key,
+      key: completeTasksKey,
       user: user,
     };
 
     if (id === "todo") {
-      db.ref("toDoTasks/" + toDoTasks_key).remove();
-      completeTasksUpdates[
-        "completeTasks/" + completeTasks_key
-      ] = completeTasks;
+      db.ref("toDoTasks/" + toDoTasksKey).remove();
+      completeTasksUpdates["completeTasks/" + completeTasksKey] = completeTasks;
       db.ref().update(completeTasksUpdates);
     } else {
-      db.ref("completeTasks/" + completeTasks_key).remove();
-      toDoTasksUpdates["toDoTasks/" + toDoTasks_key] = toDoTasks;
+      db.ref("completeTasks/" + completeTasksKey).remove();
+      toDoTasksUpdates["toDoTasks/" + toDoTasksKey] = toDoTasks;
       db.ref().update(toDoTasksUpdates);
     }
 
@@ -148,16 +146,16 @@ function showData() {
       toDoTasks.push(Object.values(toDoChildData));
 
       toDoTasks.forEach((el) => {
-        let toDoTasks_key = el[0];
-        let toDoTasks_task = el[1];
-        let toDoTasks_user = el[2];
+        let toDoTasksKey = el[0];
+        let toDoTasksTask = el[1];
+        let toDoTasksUser = el[2];
 
         list = completed
           ? document.getElementById("todo")
           : document.getElementById("completed");
 
-        if (user === toDoTasks_user) {
-          createItems(toDoTasks_task, toDoTasks_key, toDoTasks_key, list);
+        if (user === toDoTasksUser) {
+          createItems(toDoTasksTask, toDoTasksKey, toDoTasksKey, list);
         }
       });
     });
@@ -172,18 +170,18 @@ function showData() {
       completeTasks.push(Object.values(completeChildData));
 
       completeTasks.forEach((el) => {
-        let completeTasks_key = el[0];
-        let completeTasks_task = el[1];
-        let completeTasks_user = el[2];
+        let completeTasksKey = el[0];
+        let completeTasksTask = el[1];
+        let completeTasksUser = el[2];
 
         list = completed
           ? document.getElementById("completed")
           : document.getElementById("todo");
-        if (user === completeTasks_user) {
+        if (user === completeTasksUser) {
           createItems(
-            completeTasks_task,
-            completeTasks_key,
-            completeTasks_key,
+            completeTasksTask,
+            completeTasksKey,
+            completeTasksKey,
             list
           );
         }
@@ -241,10 +239,6 @@ function signUp() {
     .catch((e) => {
       Toast.show(`${e.message}`, `error`);
     });
-
-  // auth.createUserWithEmailAndPassword(email, pass).catch((e) => {
-  //   Toast.show(`${e.message}`, `error`);
-  // });
 }
 
 //  LOG OUT FUNCTION

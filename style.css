@@ -166,7 +166,7 @@ button {
 /* VERIFY INFO FORM */
 .verify-info-container {
   background-color: whitesmoke;
-  color: rgb(201, 200, 200);
+  color: black;
   z-index: 10;
   position: absolute;
   top: 50%;
