@@ -44,6 +44,7 @@ button {
   transition: all 0.3s ease-in;
 }
 
+/* BUTTONS HOVER */
 .todo-btn:hover,
 #log-in-btn:hover,
 #sign-up-btn:hover,
@@ -53,6 +54,7 @@ button {
   background: rgb(201, 200, 200);
 }
 
+/* TO DO LIST */
 .todo-list {
   margin-left: 40%;
   transform: translateX(-34%);
@@ -137,11 +139,6 @@ button {
   z-index: -5;
 }
 
-/* HIDING SIGN IN FORM AFTER LOG IN/SIGN UP */
-.sign-in-form-hidden {
-  display: none;
-}
-
 /* SIGN IN FORM */
 .sign-in-container {
   background-color: whitesmoke;
@@ -178,7 +175,7 @@ button {
   border-radius: 10px;
 }
 
-/* SHOWING INFO ABOUT VERIFICATION EMAIL */
+/* HIDING SIGN IN CONTAINER AND VERIFY INFO */
 .hidden {
   display: none;
 }
@@ -202,16 +199,16 @@ button {
   transition: opacity 0.2s, top 0.2s, visibility 0.2s;
 }
 
-.toast--visible {
+.visible {
   top: 10px;
   opacity: 1;
   visibility: visible;
 }
 
-.toast--success {
+.success {
   background: green;
 }
 
-.toast--error {
+.error {
   background: red;
 }

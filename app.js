@@ -204,12 +204,12 @@ const Toast = {
     clearTimeout(this.hideTimeout);
 
     this.toast.textContent = message;
-    this.toast.className = "toast toast--visible";
+    this.toast.className = "toast visible";
 
-    if (status) this.toast.classList.add(`toast--${status}`);
+    if (status) this.toast.classList.add(`${status}`);
 
     this.hideTimeout = setTimeout(() => {
-      this.toast.classList.remove("toast--visible");
+      this.toast.classList.remove("visible");
     }, 3000);
   },
 };
@@ -258,7 +258,7 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
   if (firebaseUser) {
     if (firebaseUser.emailVerified === true) {
       listContainer.classList.remove("blur");
-      signContainer.classList.add("sign-in-form-hidden");
+      signContainer.classList.add("hidden");
 
       Toast.show(`Welcome ${firebaseUser.email}`, "success");
 
@@ -271,7 +271,7 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
     } else {
       console.log("not logged in");
       listContainer.classList.add("blur");
-      signContainer.classList.remove("sign-in-form-hidden");
+      signContainer.classList.remove("hidden");
     }
   }
 });
