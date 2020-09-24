@@ -192,6 +192,16 @@ button {
   color: black;
 }
 
+/* FOMRS BTNS MARGIN */
+#log-in-btn,
+#sign-up-btn,
+#return-btn,
+#reset-btn,
+#reset-password-btn,
+#reset-container-return-btn {
+  margin-top: 10px;
+}
+
 /* DELETE ACCOUNT BTNS FORM */
 .delete-account-container-btns {
   margin-top: 30px;
