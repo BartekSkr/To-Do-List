@@ -49,8 +49,18 @@ button {
 #log-in-btn:hover,
 #sign-up-btn:hover,
 #log-out-btn:hover,
-#return-btn:hover {
+#delete-account-btn:hover,
+#deny:hover,
+#return-btn:hover,
+#reset-btn:hover,
+#reset-password-btn:hover,
+#reset-container-return-btn:hover {
   color: rgb(255, 0, 0);
+  background: rgb(201, 200, 200);
+}
+
+#confirm:hover {
+  color: rgb(7, 175, 7);
   background: rgb(201, 200, 200);
 }
 
@@ -122,14 +132,24 @@ button {
   opacity: 0.7;
 }
 
-/* LOG OUT BUTTNON */
-#log-out-btn {
+/* LOG OUT AND DELET ACCOUNT BUTTNON */
+#log-out-btn,
+#delete-account-btn {
   position: absolute;
-  top: 10px;
   right: 10px;
   padding: 6px;
   font-size: 15px;
   border-radius: 5px;
+}
+
+/* log out btn */
+#log-out-btn {
+  top: 10px;
+}
+
+/* delete account btn */
+#delete-account-btn {
+  bottom: 10px;
 }
 
 /* HIDING LIST BEFORE LOG IN */
@@ -139,8 +159,11 @@ button {
   z-index: -5;
 }
 
-/* SIGN IN FORM */
-.sign-in-container {
+/* SIGN IN, VERIFY INFO, RESET PASSWORD, DELETE ACCOUNT FORMS */
+.sign-in-container,
+.info-container,
+.reset-password-container,
+.delete-account-container {
   background-color: whitesmoke;
   z-index: 10;
   position: absolute;
@@ -154,25 +177,34 @@ button {
 }
 
 #email-input,
-#password-input {
+#password-input,
+#reset-email-input {
   width: 100%;
   border-bottom: 1px solid black;
   display: flex;
 }
 
-/* VERIFY INFO FORM */
-.verify-info-container {
-  background-color: whitesmoke;
+/* verify, reset password, delete account forms */
+.info-container,
+.reset-password-container,
+.delete-account-container {
+  text-align: center;
   color: black;
-  z-index: 10;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 30px 25px;
-  height: 200px;
-  width: 400px;
-  border-radius: 10px;
+}
+
+/* DELETE ACCOUNT BTNS FORM */
+.delete-account-container-btns {
+  margin-top: 30px;
+  justify-content: center;
+  display: flex;
+}
+
+/* CONFIRM AND DENY BTNS */
+#confirm,
+#deny {
+  height: 50px;
+  width: 50px;
+  margin: 10px;
 }
 
 /* HIDING SIGN IN CONTAINER AND VERIFY INFO */

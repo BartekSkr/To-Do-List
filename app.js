@@ -13,18 +13,39 @@ firebase.initializeApp(firebaseConfig);
 
 //  CONST
 const db = firebase.database();
+//  list
 const addBtn = document.querySelector(".todo-btn");
 const itemInput = document.querySelector(".todo-input");
 const listContainer = document.querySelector(".container");
+const logOutBtn = document.getElementById("log-out-btn");
+const deleteAccountBtn = document.getElementById("delete-account-btn");
+//  sign container
 const signContainer = document.querySelector(".sign-in-container");
-const verifyContainer = document.querySelector(".verify-info-container");
 const emailInput = document.querySelector("#email-input");
 const passwordInput = document.querySelector("#password-input");
 const logInBtn = document.getElementById("log-in-btn");
 const signUpBtn = document.getElementById("sign-up-btn");
-const logOutBtn = document.getElementById("log-out-btn");
+const resetPasswordBtn = document.getElementById("reset-password-btn");
+//  info container
+const infoContainer = document.querySelector(".info-container");
+const infoContainerParagraph = document.getElementById(
+  "info-container-paragraph"
+);
 const returnBtn = document.getElementById("return-btn");
-
+//  reset password container
+const resetPasswordContainer = document.querySelector(
+  ".reset-password-container"
+);
+const resetEmailInput = document.querySelector("#reset-email-input");
+const resetBtn = document.getElementById("reset-btn");
+const resetReturnBtn = document.getElementById("reset-container-return-btn");
+//  delete account container
+const deleteAccountContainer = document.querySelector(
+  ".delete-account-container"
+);
+const confirmBtn = document.getElementById("confirm");
+const denyBtn = document.getElementById("deny");
+//  firebase auth
 const auth = firebase.auth();
 
 let toDoTasksUpdates = {};
@@ -40,7 +61,7 @@ function addItems(e) {
   const toDoTasksKey = db.ref().child("toDoTasks").push().key;
   const completeTasksKey = db.ref().child("completeTasks").push().key;
 
-  //  ADD ITEMS TO FIREBASE NAD LIST
+  //  add items to firebase list
   if (itemToAdd) {
     let toDoTasks = {
       task: itemToAdd,
@@ -48,7 +69,6 @@ function addItems(e) {
       user: user,
     };
 
-    //  ADD ITEMS TO FIREBASE
     toDoTasksUpdates["toDoTasks/" + toDoTasksKey] = toDoTasks;
     db.ref().update(toDoTasksUpdates);
 
@@ -81,7 +101,7 @@ function createItems(inputItem, toDoTasksKey, completeTasksKey, list) {
   item.appendChild(buttons);
   list.appendChild(item);
 
-  //  DELETE ITEM
+  //  delete item
   deleteBtn.addEventListener("click", function deleteItem() {
     const item = this.parentNode.parentNode;
     const parent = item.parentNode;
@@ -96,7 +116,7 @@ function createItems(inputItem, toDoTasksKey, completeTasksKey, list) {
     parent.removeChild(item);
   });
 
-  //  COMPLETE ITEM
+  //  complete item
   completeBtn.addEventListener("click", function completeItem() {
     const item = this.parentNode.parentNode;
     const parent = item.parentNode;
@@ -124,7 +144,7 @@ function createItems(inputItem, toDoTasksKey, completeTasksKey, list) {
       db.ref().update(toDoTasksUpdates);
     }
 
-    //    CHECK IF ITEM SHOULD BE ADD TO TODO OR COMPLETE LIST
+    //  check if item should be add to todo or complete list
     let target =
       id === "todo"
         ? document.getElementById("completed")
@@ -234,7 +254,9 @@ function signUp() {
     .then(() => {
       sendVerificationEmail();
       signContainer.classList.add("hidden");
-      verifyContainer.classList.remove("hidden");
+      infoContainer.classList.remove("hidden");
+      infoContainerParagraph.innerText =
+        "Verification email has been sent, please check your inbox!";
     })
     .catch((e) => {
       Toast.show(`${e.message}`, `error`);
@@ -249,6 +271,37 @@ function logOut() {
   window.location.reload();
 }
 
+//  DELETE ACCOUNT FUNCTION
+function deleteAccount() {
+  auth.currentUser
+    .delete()
+    .then(function () {
+      deleteAccountContainer.classList.add("hidden");
+      infoContainer.classList.remove("hidden");
+      infoContainerParagraph.innerText = `Your account has been successfully deleted!`;
+    })
+    .catch((e) => {
+      Toast.show(`${e.message}`, `error`);
+    });
+}
+
+//  RESET PASSWORD FUNCTION
+function resetPassword() {
+  const emailAddress = resetEmailInput.value;
+
+  auth
+    .sendPasswordResetEmail(emailAddress)
+    .then(function () {
+      infoContainer.classList.remove("hidden");
+      infoContainerParagraph.innerText =
+        "Password reset email has been sent, please check your inbox!";
+      resetPasswordContainer.classList.add("hidden");
+    })
+    .catch((e) => {
+      Toast.show(`${e.message}`, `error`);
+    });
+}
+
 //  SEND VERIFICATION MAIL FUNCTION
 function sendVerificationEmail() {
   auth.currentUser.sendEmailVerification().then(() => {});
@@ -260,13 +313,13 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
       listContainer.classList.remove("blur");
       signContainer.classList.add("hidden");
 
-      Toast.show(`Welcome ${firebaseUser.email}`, "success");
+      Toast.show(`Welcome ${firebaseUser.email}`, `success`);
 
       user = firebaseUser.email;
 
       // console.log(firebaseUser);
 
-      //  DISPLAY DATA FROM FIREBASE
+      //  display from firebase
       showData();
     } else {
       console.log("not logged in");
@@ -277,12 +330,36 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
 });
 
 //  EVENTLISTENERS
+//  list
 addBtn.addEventListener("click", addItems);
+logOutBtn.addEventListener("click", logOut);
+//  sign container
 logInBtn.addEventListener("click", logIn);
 signUpBtn.addEventListener("click", signUp);
-logOutBtn.addEventListener("click", logOut);
+//  info container
 returnBtn.addEventListener("click", () => {
   window.location.reload();
+});
+//  reset container
+resetPasswordBtn.addEventListener("click", () => {
+  signContainer.classList.add("hidden");
+  resetPasswordContainer.classList.remove("hidden");
+});
+resetBtn.addEventListener("click", resetPassword);
+resetReturnBtn.addEventListener("click", () => {
+  // window.location.reload();
+  resetPasswordContainer.classList.add("hidden");
+  signContainer.classList.remove("hidden");
+});
+//  delete account container
+deleteAccountBtn.addEventListener("click", () => {
+  listContainer.classList.add("blur");
+  deleteAccountContainer.classList.remove("hidden");
+});
+confirmBtn.addEventListener("click", deleteAccount);
+denyBtn.addEventListener("click", () => {
+  deleteAccountContainer.classList.add("hidden");
+  listContainer.classList.remove("blur");
 });
 
 //  TOAST INIT

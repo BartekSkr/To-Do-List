@@ -24,12 +24,27 @@
         <input id="password-input" type="password" placeholder="Password">
         <button id="log-in-btn">Log In</button>
         <button id="sign-up-btn">Sign Up</button>
+        <button id="reset-password-btn">Reset Password</button>
     </div>
 
-    <div class="verify-info-container hidden">
-        <p>Verification email has been sent, please check your inbox!</p>
+    <div class="info-container hidden">
+        <p id="info-container-paragraph"></p>
         <button id="return-btn">Return</button>
+    </div>
 
+    <div class="reset-password-container hidden">
+        <p>Please type new password:</p>
+        <input id="reset-email-input" type="email" placeholder="Email">
+        <button id="reset-btn">Reset</button>
+        <button id="reset-container-return-btn">Return</button>
+    </div>
+
+    <div class="delete-account-container hidden">
+        <p>Are you sure you want to delete account?</p>
+        <div class="delete-account-container-btns">
+            <button id="confirm"><i class="fas fa-check"></i></button>
+            <button id="deny"><i class="fas fa-times"></i></button>
+        </div>
     </div>
 
     <div class="container blur">
@@ -43,6 +58,7 @@
         <ul class="todo-list" id="todo"></ul>
         <ul class="todo-list" id="completed"></ul>
 
+        <button id="delete-account-btn">Delete Account</button>
         <button id="log-out-btn">Log Out</button>
     </div>
 
