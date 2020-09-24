@@ -335,6 +335,11 @@ addBtn.addEventListener("click", addItems);
 logOutBtn.addEventListener("click", logOut);
 //  sign container
 logInBtn.addEventListener("click", logIn);
+passwordInput.addEventListener("keyup", (event) => {
+  if (event.key === `Enter`) {
+    logInBtn.click();
+  }
+});
 signUpBtn.addEventListener("click", signUp);
 //  info container
 returnBtn.addEventListener("click", () => {
