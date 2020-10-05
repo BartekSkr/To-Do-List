@@ -136,7 +136,8 @@ button {
 #log-out-btn,
 #delete-account-btn {
   position: absolute;
-  right: 10px;
+  top: 10px;
+  /* right: 10px; */
   padding: 6px;
   font-size: 15px;
   border-radius: 5px;
@@ -144,12 +145,14 @@ button {
 
 /* log out btn */
 #log-out-btn {
-  top: 10px;
+  /* top: 10px; */
+  right: 10px;
 }
 
 /* delete account btn */
 #delete-account-btn {
-  bottom: 10px;
+  /* bottom: 10px; */
+  left: 10px;
 }
 
 /* HIDING LIST BEFORE LOG IN */
