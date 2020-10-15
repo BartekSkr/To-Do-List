@@ -14,24 +14,51 @@ function logInToAccount(email, password) {
   cy.get("#password-input").type(`${password}{enter}`);
 }
 
+function waitAmoment(time) {
+      cy.wait(time)
+}
+
+function checkToDoItems(num) {
+  cy.get('#todo li')
+    .should('have.length', num)
+}
+
+function checkCompletedItems(num) { 
+  cy.get('#completed li')
+  .should('have.length', num)
+}
+
 describe("Testing To-Do List", () => {
   context("web run", () => {
     it("visiting To-Do List web", () => {
-      cy.visit(url);
+      cy.visit("/");
+
+      waitAmoment(2000)
     });
   });
 
   context("tests", () => {
-    it("login in to account", () => {
+    it("log in to account", () => {
       logInToAccount(email, password);
+
+      waitAmoment(3000)
     });
 
-    it("login out from account", () => {
+    it('check if todo and completed list are empty', () => {
+      checkToDoItems(0)
+      checkCompletedItems(0)
+
+      waitAmoment(2000)
+    })
+
+    it("log out from account", () => {
       cy.get("#log-out-btn").click();
     });
 
-    it("login in to account again", () => {
+    it("log in to account again", () => {
       logInToAccount(email, password);
+
+      waitAmoment(2000)
     });
 
     it("adding 1st item to list", () => {
@@ -42,22 +69,38 @@ describe("Testing To-Do List", () => {
       addItemToList("2");
     });
 
+    it('check number of todo items', () => {
+        checkToDoItems(2)
+    })
+
     it("adding 3rd item to list", () => {
       addItemToList("dżem");
     });
 
-    it("click check button in 2nd list item", () => {
+    it("click completeBtn in 2nd list item", () => {
       cy.get(":nth-child(2) > .buttons > :nth-child(1) > .fas").click();
     });
 
-    it("deleting all items from the list", () => {
-      cy.get("#todo > :nth-child(1) > .buttons > :nth-child(2) > .fas").click();
-      cy.get("#todo > :nth-child(1) > .buttons > :nth-child(2) > .fas").click();
-      cy.get("#completed > li > .buttons > :nth-child(2) > .fas").click();
-    });
+    it('another check number of todo items', () => {
+      checkToDoItems(2)
+    })
 
-    it("login out from account", () => {
-      cy.get("#log-out-btn").click();
-    });
+    it('check number of completed items', () => {
+      checkCompletedItems(1)
+
+      // waitAmoment(5000)
+    })
+
+    // it("deleting all items from the list", () => {
+    //   cy.get("#todo > :nth-child(1) > .buttons > :nth-child(2) > .fas").click();
+    //   cy.get("#todo > :nth-child(1) > .buttons > :nth-child(2) > .fas").click();
+    //   cy.get("#completed > li > .buttons > :nth-child(2) > .fas").click();
+
+    //   waitAmoment(3000)
+    // });
+
+    // it("login out from account", () => {
+    //   cy.get("#log-out-btn").click();
+    // });
   });
 });
