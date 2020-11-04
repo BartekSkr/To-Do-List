@@ -4,9 +4,19 @@ const url = "https://to-do-list-1c4ba.web.app";
 const email = "adrestestowy46@gmail.com";
 const password = "123456";
 
-function addItemToList(item) {
+let myArray = [1, "banany", "masło", 2, 45, "długopis", "chipsy", "sok", "woda", "chleb", "czekolada", 34, 0, "alkohol", "kalafior", "ziemniaki", "szklanki", "nowe buty", "wypłacić pieniądze"];
+let usedItemsFromMyArray = [];
+
+//  FUNCTIONS
+function addItemToList() {
+  let item = myArray[Math.floor(Math.random() * myArray.length)];
+  myArray.splice(myArray.indexOf(item), 1)[0];
+
   cy.get(".todo-input").type(item);
   cy.get(".todo-btn").click();
+
+  //  filling array with random items used in to-do list
+  usedItemsFromMyArray.push(item)
 }
 
 function logInToAccount(email, password) {
@@ -29,6 +39,25 @@ function checkCompletedItems(num) {
   .should('have.length', num)
 }
 
+function deleteItemFromList() {
+  let item = usedItemsFromMyArray[Math.floor(Math.random() * usedItemsFromMyArray.length)]
+
+  cy.get(`[data-cy-deletebtn="${item}"]`).click()
+  
+  usedItemsFromMyArray.splice(usedItemsFromMyArray.indexOf(item), 1)[0]
+
+  waitAmoment(2000)
+}
+
+function completeItem() {
+  let item = usedItemsFromMyArray[Math.floor(Math.random() * usedItemsFromMyArray.length)]
+
+  cy.get(`[data-cy-completebtn="${item}"]`).click()
+
+  waitAmoment(2000)
+}
+
+//  TESTS
 describe("Testing To-Do List", () => {
   context("web run", () => {
     it("visiting To-Do List web", () => {
@@ -45,6 +74,7 @@ describe("Testing To-Do List", () => {
       waitAmoment(3000)
     });
 
+    //  chcecking if both lists are empty
     it('check if todo and completed list are empty', () => {
       checkToDoItems(0)
       checkCompletedItems(0)
@@ -52,46 +82,66 @@ describe("Testing To-Do List", () => {
       waitAmoment(2000)
     })
 
+    //  adding items to list
     it("adding 1st item to list", () => {
-      addItemToList("1");
+      addItemToList();
     });
 
     it("adding 2nd item to list", () => {
-      addItemToList("2");
+      addItemToList();
+
     });
 
+    //  checking number of items in todo list
     it('check number of todo items', () => {
       checkToDoItems(2)
     })
 
+    //  adding more items to list
     it("adding 3rd item to list", () => {
-      addItemToList("dżem");
+      addItemToList();
     });
 
-    it("click completeBtn in 2nd list item", () => {
-      cy.get(":nth-child(2) > .buttons > :nth-child(1) > .fas").click();
+    it("adding 4th item to list", () => {
+      addItemToList();
     });
 
+    it("adding 5th item to list", () => {
+      addItemToList();
+    });
+
+    it("adding 6th item to list", () => {
+      addItemToList();
+    });
+
+    // completing random items
+    it("click completeBtn in random list item", () => {
+      completeItem()
+    });
+
+    it("click completeBtn in random list item", () => {
+      completeItem()
+    });
+
+    //  checking number of items in todo list
     it('check number of todo items', () => {
-      checkToDoItems(2)
+      checkToDoItems(4)
     })
 
+    //  checking number of items in completed list
     it('check number of completed items', () => {
-      checkCompletedItems(1)
-
-      waitAmoment(5000)
+      checkCompletedItems(2)
     })
 
-    it("deleting all items from the list", () => {
-      cy.get("#todo > :nth-child(1) > .buttons > :nth-child(2) > .fas").click();
-      cy.get("#todo > :nth-child(1) > .buttons > :nth-child(2) > .fas").click();
-      cy.get("#completed > li > .buttons > :nth-child(2) > .fas").click();
-
-      waitAmoment(3000)
+    // deleting random items from list
+    it("deleting items from the list", () => {
+      deleteItemFromList()
+      deleteItemFromList()
+      deleteItemFromList()
     });
 
-    it("login out from account", () => {
-      cy.get("#log-out-btn").click();
-    });
+    // it("login out from account", () => {
+    //   cy.get("#log-out-btn").click();
+    // });
     });
   });

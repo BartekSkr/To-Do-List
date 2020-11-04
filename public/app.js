@@ -86,15 +86,18 @@ function addItems(e) {
 function createItems(inputItem, toDoTasksKey, completeTasksKey, list) {
   const item = document.createElement("li");
   item.innerText = inputItem;
+  item.setAttribute("data-cy", `${inputItem}`);
 
   const buttons = document.createElement("div");
   buttons.classList.add("buttons");
 
   const completeBtn = document.createElement("i");
   completeBtn.innerHTML = `<i class="fas fa-check"></i>`;
-
+  completeBtn.setAttribute("data-cy-completeBtn", `${inputItem}`)
+  
   const deleteBtn = document.createElement("i");
   deleteBtn.innerHTML = `<i class="fas fa-trash-alt"></i>`;
+  deleteBtn.setAttribute("data-cy-deleteBtn", `${inputItem}`)
 
   buttons.appendChild(completeBtn);
   buttons.appendChild(deleteBtn);
