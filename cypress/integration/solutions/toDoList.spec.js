@@ -23,6 +23,8 @@ function logInToAccount(email, password) {
   cy.get("#email-input").type(email);
   cy.get("#password-input").type(`${password}`);
   cy.get('#log-in-btn').click()
+
+  waitForExactTime(3000)
 }
 
 function waitForExactTime(time) {
@@ -40,40 +42,36 @@ function checkCompletedItems(num) {
 }
 
 function deleteItemFromList() {
-  let item = usedItemsFromMyArray[Math.floor(Math.random() * usedItemsFromMyArray.length)]
-
-  cy.get(`[data-cy-deletebtn="${item}"]`).click()
+  cy.get(`[data-cy="deleteBtn-${getRandomItems()}"]`).click()
   
-  usedItemsFromMyArray.splice(usedItemsFromMyArray.indexOf(item), 1)[0]
+  usedItemsFromMyArray.splice(usedItemsFromMyArray.indexOf(getRandomItems()), 1)[0]
 
   waitForExactTime(2000)
 }
 
 function completeItem() {
-  let item = usedItemsFromMyArray[Math.floor(Math.random() * usedItemsFromMyArray.length)]
+  cy.get(`[data-cy="completeBtn-${getRandomItems()}"]`).click()
 
-  cy.get(`[data-cy-completebtn="${item}"]`).click()
+  waitForExactTime(3000)
+}
 
-  waitForExactTime(2000)
+//  function gets random items from usedItemsFromMyArray
+function getRandomItems() {
+  let item = usedItemsFromMyArray[Math.floor(Math.random() * usedItemsFromMyArray.length)];
+  return item;
 }
 
 //  TESTS
 describe("Testing To-Do List", () => {
-  context("web run", () => {
-    it("visiting To-Do List web", () => {
-      cy.visit("/");
+  before(() => {
+    cy.visit("/");
 
-      waitForExactTime(2000)
-    });
-  });
+    waitForExactTime(2000)
+
+    logInToAccount(email, password);
+  })
 
   context("tests", () => {
-    it("log in to account", () => {
-      logInToAccount(email, password);
-
-      waitForExactTime(3000)
-    });
-
     //  chcecking if both lists are empty
     it('check if todo and completed list are empty', () => {
       checkToDoItems(0)
@@ -139,9 +137,5 @@ describe("Testing To-Do List", () => {
       deleteItemFromList()
       deleteItemFromList()
     });
-
-    // it("login out from account", () => {
-    //   cy.get("#log-out-btn").click();
-    // });
     });
   });
