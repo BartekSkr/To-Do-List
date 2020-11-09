@@ -25,7 +25,7 @@ function logInToAccount(email, password) {
   cy.get('#log-in-btn').click()
 }
 
-function waitAmoment(time) {
+function waitForExactTime(time) {
       cy.wait(time)
 }
 
@@ -46,7 +46,7 @@ function deleteItemFromList() {
   
   usedItemsFromMyArray.splice(usedItemsFromMyArray.indexOf(item), 1)[0]
 
-  waitAmoment(2000)
+  waitForExactTime(2000)
 }
 
 function completeItem() {
@@ -54,7 +54,7 @@ function completeItem() {
 
   cy.get(`[data-cy-completebtn="${item}"]`).click()
 
-  waitAmoment(2000)
+  waitForExactTime(2000)
 }
 
 //  TESTS
@@ -63,7 +63,7 @@ describe("Testing To-Do List", () => {
     it("visiting To-Do List web", () => {
       cy.visit("/");
 
-      waitAmoment(2000)
+      waitForExactTime(2000)
     });
   });
 
@@ -71,7 +71,7 @@ describe("Testing To-Do List", () => {
     it("log in to account", () => {
       logInToAccount(email, password);
 
-      waitAmoment(3000)
+      waitForExactTime(3000)
     });
 
     //  chcecking if both lists are empty
@@ -79,7 +79,7 @@ describe("Testing To-Do List", () => {
       checkToDoItems(0)
       checkCompletedItems(0)
 
-      waitAmoment(2000)
+      waitForExactTime(2000)
     })
 
     //  adding items to list
