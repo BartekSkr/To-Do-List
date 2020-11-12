@@ -320,8 +320,6 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
 
       user = firebaseUser.email;
 
-      // console.log(firebaseUser);
-
       //  display from firebase
       showData();
     } else {
