@@ -4,7 +4,7 @@ const url = "https://to-do-list-1c4ba.web.app";
 const email = "adrestestowy46@gmail.com";
 const password = "123456";
 
-let myArray = [1, "banany", "masło", 2, 45, "długopis", "chipsy", "sok", "woda", "chleb", "czekolada", 34, 0, "alkohol", "kalafior", "ziemniaki", "szklanki", "nowe buty", "wypłacić pieniądze"];
+let myArray = [1, "banany", "masło", 2, 45, "długopis", "chipsy", "sok", "woda", "chleb", "czekolada", 34, 0, "nowe szklanki", "kalafior", "ziemniaki", "szklanki", "nowe buty", "wypłacić pieniądze", "opłacić rachunki", "wędlina"];
 let usedItemsFromMyArray = [];
 
 //  FUNCTIONS
