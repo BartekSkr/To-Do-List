@@ -6,7 +6,13 @@
 
 body {
   font-family: "Poppins", sans-serif;
-  background: linear-gradient(120deg, yellow, red);
+  /* background: linear-gradient(120deg, yellow, red); */
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(22, 185, 154, 1) 51%,
+    rgba(17, 115, 135, 1) 100%
+  );
   color: whitesmoke;
   min-height: 100vh;
 }
@@ -38,6 +44,16 @@ button {
   outline: none;
 }
 
+.todo-input {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.todo-btn {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
 button {
   color: rgb(201, 200, 200);
   cursor: pointer;
@@ -55,7 +71,7 @@ button {
 #reset-btn:hover,
 #reset-password-btn:hover,
 #reset-container-return-btn:hover {
-  color: rgb(255, 0, 0);
+  color: #117387;
   background: rgb(201, 200, 200);
 }
 
@@ -76,13 +92,12 @@ button {
   font-size: 20px;
   margin: 5px;
   padding-left: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   justify-content: center;
   display: flex;
   list-style: none;
   justify-content: space-between;
   align-items: center;
-  min-width: 30%;
   transition: all 0.5s ease;
 }
 
@@ -107,8 +122,8 @@ button {
 }
 
 .todo-list .fa-trash-alt {
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .todo-list .fa-check:hover {
@@ -137,7 +152,6 @@ button {
 #delete-account-btn {
   position: absolute;
   top: 10px;
-  /* right: 10px; */
   padding: 6px;
   font-size: 15px;
   border-radius: 5px;
@@ -145,13 +159,11 @@ button {
 
 /* log out btn */
 #log-out-btn {
-  /* top: 10px; */
   right: 10px;
 }
 
 /* delete account btn */
 #delete-account-btn {
-  /* bottom: 10px; */
   left: 10px;
 }
 
@@ -257,4 +269,15 @@ button {
 
 .error {
   background: red;
+}
+
+/* SMALLER SCREENS */
+@media only screen and (min-width: 100px) and (max-width: 920px) {
+  .todo-list {
+    transform: translateX(-60%);
+  }
+
+  .todo-list li {
+    width: 150%;
+  }
 }
