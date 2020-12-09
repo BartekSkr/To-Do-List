@@ -6,7 +6,6 @@
 
 body {
   font-family: "Poppins", sans-serif;
-  /* background: linear-gradient(120deg, yellow, red); */
   background: linear-gradient(
     90deg,
     rgba(2, 0, 36, 1) 0%,
@@ -147,7 +146,7 @@ button {
   opacity: 0.7;
 }
 
-/* LOG OUT AND DELET ACCOUNT BUTTNON */
+/* LOG OUT AND DELETe ACCOUNT BUTTON */
 #log-out-btn,
 #delete-account-btn {
   position: absolute;
@@ -207,7 +206,7 @@ button {
   color: black;
 }
 
-/* FOMRS BTNS MARGIN */
+/* FORMS BTNS MARGIN */
 #log-in-btn,
 #sign-up-btn,
 #return-btn,
@@ -217,14 +216,14 @@ button {
   margin-top: 10px;
 }
 
-/* DELETE ACCOUNT BTNS FORM */
+/* DELETE ACCOUNT BUTTONS FORM */
 .delete-account-container-btns {
   margin-top: 30px;
   justify-content: center;
   display: flex;
 }
 
-/* CONFIRM AND DENY BTNS */
+/* CONFIRM AND DENY BUTTONS */
 #confirm,
 #deny {
   height: 50px;
